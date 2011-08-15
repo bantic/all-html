@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style type='text/css'>
+    #all-html {
+      width: 600px;
+      height: 600px;
+      position: absolute;
+      left: 250px;
+      top: 50px;
+    }
+    #html-tags {
+      width: 150px;
+      height: 500px;
+      overflow: auto;
+      z-index: 100;
+      background: #FFF;
+    }
+    .html-tag {
+      font-size: 12px;
+    }
+    #html-tags-output-container {
+      position: absolute;
+      width: 250px;
+      height: 500px;
+      overflow: auto;
+      font-size: 14px;
+      right: 0;
+      top: 0;
+      z-index: 100;
+      background: #FFF;
+    }
+    #footer {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 30px;
+      width: 250px;
+      background: #CCC;
+      font-size: 12px;
+      padding: 4px;
+    }
+  </style>
+  <script type='text/javascript'>
+    var tags = ['a',
+    'abbr',
+    'acronym',
+    'address',
+    'area',
+    'b',
+    'base',
+    'basefont',
+    'bdo',
+    'big',
+    'blockquote',
+    'br',
+    'button',
+    'caption',
+    'center',
+    'cite',
+    'code',
+    'col',
+    'colgroup',
+    'dd',
+    'del',
+    'dfn',
+    'dir',
+    'div',
+    'dl',
+    'dt',
+    'em',
+    'fieldset',
+    'font',
+    'form',
+    'frame',
+    'frameset',
+    'head',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'hr',
+    'i',
+    'img',
+    'input',
+    'ins',
+    'kbd',
+    'label',
+    'legend',
+    'li',
+    'link',
+    'map',
+    'menu',
+    'meta',
+    'object',
+    'ol',
+    'p',
+    'param',
+    'pre',
+    'q',
+    's',
+    'samp',
+    'small',
+    'span',
+    'strike',
+    'strong',
+    'sub',
+    'sup',
+    'table',
+    'tbody',
+    'td',
+    'tfoot',
+    'th',
+    'thead',
+    'tr',
+    'tt',
+    'u',
+    'ul',
+    'var'];
+    
+    setTimeout( function() {
+      var html = '';
+      for (var i = 0; i < tags.length; i++) {
+        html += "<div class='html-tag'>" + 
+                "<input type='checkbox' class='html-tag-input' checked='checked' name='" + tags[i] + "' id='" + tags[i] + "' />" + 
+                "<label for='" + tags[i] + "'>" + tags[i] + "</label></div>";
+        document.getElementById('html-tags').innerHTML = html;
+      }
+    }, 100);
+  
+  function shuffle(arr) {
+    var shuffled = arr.concat();
+    
+    for (var i = 0; i < arr.length; i++) {
+      var j = i;
+      while (j == i) {
+        j = Math.floor(Math.random() * shuffled.length);
+      }
+      var contents = shuffled[i];
+      shuffled[i] = arr[j];
+      shuffled[j] = contents;
+    }
+    return shuffled;
+  }
+  
+  function go() {
+    var tag_inputs = document.getElementsByClassName('html-tag-input');
+    var selected_tags = [];
+    for (var i = 0; i < tag_inputs.length; i++) {
+      if ( tag_inputs[i].checked )
+        selected_tags.push(tag_inputs[i].name);
+    }
+    
+    selected_tags = selected_tags.sort(function() {return 0.5 - Math.random()})
+    
+    var html = '';
+    for (var i = 0; i < selected_tags.length; i++) {
+      html += "<" + selected_tags[i] + ">\n";
+    }
+    
+    selected_tags = selected_tags.reverse();
+    html += "One sentence contained within every HTML tag in alphabetical order.\n";
+    for (var i = 0; i < selected_tags.length; i++) {
+      html += "</" + selected_tags[i] + ">\n";
+    }
+    
+    document.getElementById('all-html').innerHTML = html;
+    document.getElementById('html-tags-output').innerHTML = html.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br />");
+    
+    return false;
+  }
+  </script>
+</head>
+<body>
+  <div id='controller'>
+    <input type='button' onclick='go();' value='Randomize' />
+  </div>
+  <div id='html-tags'>
+  </div>
+  
+  <div id='html-tags-output-container'>
+    <h2>HTML:</h2>
+    <div id='html-tags-output'></div>
+  </div>
+  <div id='all-html'></div>
+  <div id='footer'>
+    Inspired by Evan Roth's <a href='http://all-html.net/'>All-HTML.net</a>, discovered via <a href='http://kottke.org/11/08/all-html'>Kottke.org</a>.  Made by <a href='http://cargocollective.com/coryforsyth'>Cory Forsyth</a>.
+  </div>
+</body>
+</html>
